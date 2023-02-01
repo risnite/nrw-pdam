@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DistribusiController;
+use App\Http\Controllers\InstrumenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/dashboard', function () {
@@ -24,11 +25,17 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/distribusi', [DistribusiController::class, 'index'])->name('profile.index');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/sebaran', function () {
+        return view('sebaran');
+    })->name('sebaran');
+    Route::get('/instrumen', [InstrumenController::class, 'index'])->name('instrumen.index');
+    Route::get('/distribusi', [DistribusiController::class, 'index'])->name('distribusi.index');
+    Route::get('/tekanan', function () {
+        return view('tekanan');
+    })->name('tekanan');
 });
 
 require __DIR__ . '/auth.php';

@@ -2,36 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Distribution;
-use Illuminate\Contracts\Pagination\Paginator;
 
 class DistribusiController extends Controller
 {
     public function index()
     {
-        // $data1 = Distribution::groupBy('PC')->get();
-        $data = Distribution::all()->groupBy('PC')->sortKeys();
-        foreach ($data as $key => $entries) {
-            $jumlah_pelanggan = count($entries->unique('NAMA_PEL'));
-            $stan_awal = 0;
-            $stan_akhir = 0;
-            foreach ($entries as $entry) {
-                $stan_awal += $entry['STAN_AWAL'];
-                $stan_akhir += $entry['STAN_AKIR'];
-            }
-            $data[$key]['stan_awal'] = $stan_awal;
-            $data[$key]['stan_akhir'] = $stan_akhir;
-            $data[$key]['pakai'] = $stan_akhir - $stan_awal;
-            $data[$key]['jumlah_pelanggan'] = $jumlah_pelanggan;
-        }
-        // $total = count($data);
-        // $per_page = 1;
-        // $current_page = $request->input('page') ?? 1;
-        // $paginatedData = new Paginator();
+        $data = Distribution::all();
         // dd($data->toArray());
-        // dd($data1);
-        // dd($data[25066][0]['STAN_AWAL']);
+        $inflowDma = [];
+        $inflowPc = [];
+        $inflowRayon = [];
+        // calculate values
+        foreach ($data as $entry) {
+            $entry->rata_rata = round($entry->kubikase / $entry->jumlah_pelanggan);
+            $entry->nrw_area = round((1 - ($entry->kubikase / $entry->inflow)) * 100, 2) . '%';
+            // check if inside an IPA
+            if (str_contains($entry->nama_instrument, 'IPA')) {
+                $inflowRayon[$entry->kode_instrument] = 0;
+            }
+            // check if inside a Rayon
+            if (str_contains($entry->nama_instrument, 'Rayon')) {
+                $inflowPc[$entry->kode_instrument] = 0;
+                // calculate total inflow rayon
+                $inflowRayon[$entry->instrument_atasnya] += $entry->inflow;
+            }
+            // check if inside a PC
+            if (str_contains($entry->nama_instrument, 'PC') && !str_contains($entry->nama_instrument, 'DMA')) {
+                $inflowDma[$entry->kode_instrument] = 0;
+                // calculate total inflow pc
+                $inflowPc[$entry->instrument_atasnya] += $entry->inflow;
+            }
+            // calculate total inflow dma
+            if (str_contains($entry->nama_instrument, 'PC') && str_contains($entry->nama_instrument, 'DMA')) {
+                $inflowDma[$entry->instrument_atasnya] += $entry->inflow;
+            }
+        }
+        // write the values
+        foreach ($data as $entry) {
+            // write PC values
+            if (str_contains($entry->nama_instrument, 'PC') && !str_contains($entry->nama_instrument, 'DMA')) {
+                $entry['total_inflow_dma'] = $inflowDma[$entry->kode_instrument];
+                $entry['nrw_jaringan'] = round((1 - ($inflowDma[$entry->kode_instrument] / $entry->inflow)) * 100, 2) . '%';
+            }
+            // write Rayon values
+            if (str_contains($entry->nama_instrument, 'Rayon')) {
+                $entry['total_inflow_pc'] = $inflowPc[$entry->kode_instrument];
+                $entry['nrw_jaringan'] = round((1 - ($inflowPc[$entry->kode_instrument] / $entry->inflow)) * 100, 2) . '%';
+            }
+            // write IPA values
+            if (str_contains($entry->nama_instrument, 'IPA')) {
+                $entry['total_inflow_ipa'] = $inflowRayon[$entry->kode_instrument];
+                $entry['nrw_jaringan'] = round((1 - ($inflowRayon[$entry->kode_instrument] / $entry->inflow)) * 100, 2) . '%';
+            }
+        }
         return view('distribusi', ['data' => $data]);
     }
 }

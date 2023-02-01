@@ -3,36 +3,36 @@
     <div>
       images
     </div>
-    <table class="table">
+    <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">Nomor</th>
-          <th scope="col">Nama</th>
-          <th scope="col">Stan Awal</th>
-          <th scope="col">Stan Akhir</th>
-          <th scope="col">Pakai</th>
-          <th scope="col">Meter Atasnya</th>
-          <th scope="col">Merek</th>
-          <th scope="col">Jml. Plg.</th>
-          <th scope="col">Kubikai Plg.</th>
-          <th scope="col">NRW Jar. Pembawa</th>
-          <th scope="col">NRW Area</th>
+          <th>NO. URUT</th>
+          <th>KD. INSTRUMENT</th>
+          <th>NAMA INSTRUMENT</th>
+          <th>ALAMAT INSTRUMENT</th>
+          <th>INFLOW</th>
+          <th>INSTR ATASNYA</th>
+          <th>JUM PELANGGAN</th>
+          <th>KUBIKASE</th>
+          <th>RATA-RATA</th>
+          <th>NRW JARINGAN</th>
+          <th>NRW AREA</th>
         </tr>
       </thead>
       <tbody>
-        @foreach ($data as $key => $value)
+        @foreach ($data as $entry)
         <tr>
-          <th scope="row">{{$key}}</th>
-          <td>Nama</td>
-          <td>{{$value['stan_awal']}}</td>
-          <td>{{$value['stan_akhir']}}</td>
-          <td>{{$value['pakai']}}</td>
-          <td>Meter Atasnya</td>
-          <td>Merek</td>
-          <td>{{$value['jumlah_pelanggan']}}</td>
-          <td>Kubikai</td>
-          <td>NRW Jar. Pembawa</td>
-          <td>NRW Area</td>
+          <td>{{$entry['no_urut']}}</td>
+          <td>{{$entry['kode_instrument']}}</td>
+          <td>{{$entry['nama_instrument']}}</td>
+          <td>{{$entry['alamat_instrument']}}</td>
+          <td>{{$entry['inflow']}}</td>
+          <td>{{$entry['instrument_atasnya']}}</td>
+          <td>{{$entry['jumlah_pelanggan']}}</td>
+          <td>{{$entry['kubikase']}}</td>
+          <td>{{$entry['rata_rata']}}</td>
+          <td>{{$entry['nrw_jaringan']}}</td>
+          <td>{{$entry['nrw_area']}}</td>
         </tr>
         @endforeach
       </tbody>
