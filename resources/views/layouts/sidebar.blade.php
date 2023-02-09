@@ -19,10 +19,12 @@
         <i class="fa-solid fa-magnifying-glass fa-xl text-black col-3"></i>
         <div class="text-white">PANTAU TEKANAN</div>
     </a>
+    @if (Auth::check())
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <div class="d-grid">
             <button type="submit" class="btn btn-danger text-warning mx-4">Keluar</a>
         </div>
     </form>
+    @endif
 </nav>

@@ -51,8 +51,10 @@
             </main>
         </div>
     </div>
-    <script src="/public/assets/js/bootstrap.bundle.min.js">
-    </script>
+    {{-- bootstrap js --}}
+    <script src="/public/assets/js/bootstrap.bundle.min.js"></script>
+    {{-- jquery js --}}
+    <script src="/public/assets/js/jquery.min.js"></script>
 </body>
 
 </html>

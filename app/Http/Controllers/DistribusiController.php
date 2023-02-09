@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Distribution;
+use DateTime;
+use DateTimeZone;
+use Illuminate\Http\Request;
 
 class DistribusiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data = Distribution::all();
         // dd($data->toArray());
@@ -56,6 +60,59 @@ class DistribusiController extends Controller
                 $entry['nrw_jaringan'] = round((1 - ($inflowRayon[$entry->kode_instrument] / $entry->inflow)) * 100, 2) . '%';
             }
         }
-        return view('distribusi', ['data' => $data]);
+        return view('distribusi.index', ['data' => $data]);
+    }
+
+
+    public function show(Request $request, $kode_instrument)
+    {
+        $data = [];
+        // if DMA
+        if (str_contains($request->nama_instrument, 'PC') && str_contains($request->nama_instrument, 'DMA')) {
+            $data['nomor'] = $kode_instrument;
+        }
+        // if PC
+        if (str_contains($request->nama_instrument, 'PC') && !str_contains($request->nama_instrument, 'DMA')) {
+            $data['nomor'] = substr($request->kode_instrument, 0, 5);
+        }
+        // if Rayon
+        if (str_contains($request->nama_instrument, 'Rayon')) {
+            $data['nomor'] = substr($request->kode_instrument, 0, 2);
+        }
+        // if IPA
+        if (str_contains($request->nama_instrument, 'IPA')) {
+            $data['nomor'] = substr($request->kode_instrument, 0, 1);
+        }
+        $customers = Customer::select('tahun', 'nama_bln')->where('dma', 'like', $data['nomor'] . '%')->groupBy('tahun', 'nama_bln')->get();
+        $data['nama'] = $request->nama_instrument;
+        $data['tahun'] = [];
+        $data['bulan'] = [];
+        // get all years list
+        foreach ($customers->unique('tahun') as $customer) {
+            $tahun = $customer['tahun'];
+            array_push($data['tahun'], $tahun);
+        }
+        // get all months list
+        foreach ($customers->unique('nama_bln') as $customer) {
+            $namaBulan = date_create_from_format('m', $customer['nama_bln'])->format('M');
+            $bulan = $customer['nama_bln'];
+            $data['bulan'][$bulan] = $namaBulan;
+        }
+        // write meter atasnya
+        if (strlen($data['nomor']) == 1) {
+            $data['meter_atasnya'] = '-';
+        }
+        if (strlen($data['nomor']) == 2) {
+            $data['meter_atasnya'] = substr($data['nomor'], 0, 1);
+        }
+        if (strlen($data['nomor']) == 5) {
+            $data['meter_atasnya'] = substr($data['nomor'], 0, 2);
+        }
+        if (strlen($data['nomor']) == 7) {
+            $data['meter_atasnya'] = substr($data['nomor'], 0, 5);
+        }
+        $data['nrw_jaringan'] = $request->nrw_jaringan;
+        $data['nrw_area'] = $request->nrw_area;
+        return view('distribusi.show', ['data' => $data]);
     }
 }
