@@ -19,20 +19,20 @@
       </thead>
       <tbody>
         @foreach ($data as $item)
-        <tr>
-          <td>{{$item['id']}}</td>
-          <td>{{$item['kode_instrumen']}}</td>
-          <td>{{$item['nama_instrumen']}}</td>
-          <td>{{$item['tipe_instrumen']}}</td>
-          <td>{{$item['alamat_instrumen']}}</td>
-          <td>{{$item['tahun_pasang']}}</td>
-          <td>{{$item['kode_ipa']}}</td>
-          <td>{{$item['kode_rayon']}}</td>
-          <td>{{$item['kode_dma']}}</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
+          <tr>
+            <td>{{ $item['id'] }}</td>
+            <td>{{ $item['kode_instrumen'] }}</td>
+            <td>{{ $item['nama_instrumen'] }}</td>
+            <td>{{ $item['tipe_instrumen'] }}</td>
+            <td>{{ $item['alamat_instrumen'] }}</td>
+            <td>{{ $item['tahun_pasang'] }}</td>
+            <td>{{ $item['kode_ipa'] }}</td>
+            <td>{{ $item['kode_rayon'] }}</td>
+            <td>{{ $item['kode_dma'] }}</td>
+            <td>{{ $item['long'] ? $item['long'] : '-' }}</td>
+            <td>{{ $item['lat'] ? $item['lat'] : '-' }}</td>
+            <td>{{ $item['link'] }}</td>
+          </tr>
         @endforeach
       </tbody>
     </table>

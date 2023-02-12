@@ -12,12 +12,13 @@
     </div>
   </div>
   <script>
-    var map = L.map('map-home', {      
+    var map = L.map('map-home', {
       gestureHandling: true,
-    }).setView([-6.206203832426139, 106.89724677467433], 13);
-    L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}',{
+    }).setView([-6.181236, 106.905979], 13);
+    L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
       maxZoom: 20,
-      subdomains:['mt0','mt1','mt2','mt3'],
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     }).addTo(map);
+    L.marker([-6.181236, 106.880979]).addTo(map);
   </script>
 </x-app-layout>

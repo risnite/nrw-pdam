@@ -12,6 +12,14 @@ class InstrumenController extends Controller
     public function index()
     {
         $data = Instrument::all();
+        foreach ($data as $item) {
+            $item->link = 'Ins' . $item->kode_instrumen;
+        }
         return view('instrumen', ['data' => $data]);
+    }
+    public function sebaran()
+    {
+        $data = Instrument::select('tipe_instrumen', 'long', 'lat')->get();
+        return view('sebaran', ['data' => $data]);
     }
 }
