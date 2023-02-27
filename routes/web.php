@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DistribusiController;
-use App\Http\Controllers\InstrumenController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InstrumenController;
+use App\Http\Controllers\DistribusiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/sebaran', [InstrumenController::class, 'sebaran'])->name('sebaran');
     Route::get('/instrumen', [InstrumenController::class, 'index'])->name('instrumen.index');
     Route::get('/distribusi', [DistribusiController::class, 'index'])->name('distribusi.index');
