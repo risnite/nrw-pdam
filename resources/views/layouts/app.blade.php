@@ -25,10 +25,14 @@
     type="text/css">
   <script src="https://unpkg.com/leaflet-gesture-handling"></script>
   {{-- leaflet draw --}}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
   {{-- turf --}}
   <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+  {{-- chartjs 4.2.1 --}}
+  <script src="/public/assets/js/chart.umd.js"></script>
+  {{-- chartjs-datalabel --}}
+  <script src="/public/assets/js/chartjs-plugin-datalabels.min.js"></script>
   <!-- Scripts -->
   {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 </head>
@@ -46,7 +50,7 @@
             </div>
         </header>
         @endif --}}
-    <div class="d-flex" style="min-height: 85vh">
+    <div class="d-flex" style="min-height: 88vh">
       @include('layouts.sidebar')
       <!-- Page Content -->
       <main class="flex-grow-1 bg-secondary bg-opacity-25 p-3">

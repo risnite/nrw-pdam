@@ -26,7 +26,6 @@ class ApiController extends Controller
     }
     // calculate pakai
     $distribusi['pakai'] = $distribusi['total_stan_akhir'] - $distribusi['total_stan_awal'];
-
     $distribusi['jumlah_pel'] = count($customers->unique('zona_norek'));
     return response()->json($distribusi);
   }

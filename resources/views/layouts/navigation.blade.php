@@ -1,6 +1,6 @@
-<nav class="navbar bg-primary" style="height: 15vh">
+<nav class="navbar bg-primary" style="height: 12vh">
   <a class="navbar-brand ms-5" href="/">
-    <img src="/public/assets/images/logo-tirta.jpg" alt="Logo" width="80" height="70"
+    <img src="/public/assets/images/logo-tirta.jpg" alt="Logo" width="80" height="60"
       class="d-inline-block align-text-top">
   </a>
   <div class="flex-grow-1">

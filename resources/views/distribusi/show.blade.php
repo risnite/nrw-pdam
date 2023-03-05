@@ -4,12 +4,12 @@
       Data Opname Meter Induk
       <select name="" id="tahun">
         @foreach ($data['tahun'] as $tahun)
-        <option value="{{$tahun}}">{{$tahun}}</option>
+          <option value="{{ $tahun }}">{{ $tahun }}</option>
         @endforeach
       </select>
       <select name="" id="bulan">
         @foreach ($data['bulan'] as $bulan => $namaBulan)
-        <option value="{{$bulan}}">{{$namaBulan}}</option>
+          <option value="{{ $bulan }}">{{ $namaBulan }}</option>
         @endforeach
       </select>
     </div>
@@ -34,8 +34,8 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{$data['nomor']}}</td>
-          <td>{{$data['nama']}}</td>
+          <td>{{ $data['nomor'] }}</td>
+          <td>{{ $data['nama'] }}</td>
           <td id="stan-awal">
             {{-- {{$data['total_stan_awal']}} --}}
           </td>
@@ -45,16 +45,16 @@
           <td id="pakai">
             {{-- {{$data['pakai']}} --}}
           </td>
-          <td>{{$data['meter_atasnya']}}</td>
+          <td>{{ $data['meter_atasnya'] }}</td>
           <td>Merek</td>
           <td id="pelanggan">
-            {{-- {{$data['jumlah_pel']}} --}}
+            {{-- {{ $data['jumlah_pelanggan'] }} --}}
           </td>
           <td id="kubik">
             {{-- {{$data['total_kubik']}} --}}
           </td>
-          <td>{{$data['nrw_jaringan']}}</td>
-          <td>{{$data['nrw_area']}}</td>
+          <td>{{ $data['nrw_jaringan'] }}</td>
+          <td>{{ $data['nrw_area'] }}</td>
         </tr>
       </tbody>
     </table>
@@ -65,73 +65,67 @@
 </x-app-layout>
 
 <script>
-  $(document).ready(function(){
-    const nomor = {{$data['nomor']}};
+  $(document).ready(function() {
+    const nomor = {{ $data['nomor'] }};
     let tahun = $("#tahun").val();
-    let bulan =  $("#bulan").val();
+    let bulan = $("#bulan").val();
+
     function ajaxCall() {
       jQuery.ajax({
-      url: '/api/distribusi/'+nomor,
-      type: "GET",
-      data : {"tahun": tahun, "bulan": bulan},
-      dataType: "json",
-      beforeSend: function() {
-        $("#stan-awal").html('Mengambil data...');
-        $("#stan-akhir").html('Mengambil data...');
-        $("#pakai").html('Mengambil data...');
-        $("#pelanggan").html('Mengambil data...');
-        $("#kubik").html('Mengambil data...');
-      },
-      success: function (response) {
-        if(response.total_stan_awal){
-          $("#stan-awal").html(response.total_stan_awal);
-        } 
-        else {
-          $("#stan-awal").html('Data tidak ditemukan');
+        url: '/api/distribusi/' + nomor,
+        type: "GET",
+        data: {
+          "tahun": tahun,
+          "bulan": bulan
+        },
+        dataType: "json",
+        beforeSend: function() {
+          $("#stan-awal").html('Mengambil data...');
+          $("#stan-akhir").html('Mengambil data...');
+          $("#pakai").html('Mengambil data...');
+          $("#pelanggan").html('Mengambil data...');
+          $("#kubik").html('Mengambil data...');
+        },
+        success: function(response) {
+          if (response.total_stan_awal) {
+            $("#stan-awal").html(response.total_stan_awal);
+          } else {
+            $("#stan-awal").html('Data tidak ditemukan');
+          }
+          if (response.total_stan_akhir) {
+            $("#stan-akhir").html(response.total_stan_akhir);
+          } else {
+            $("#stan-akhir").html('Data tidak ditemukan');
+          }
+          if (response.pakai) {
+            $("#pakai").html(response.pakai);
+          } else {
+            $("#pakai").html('Data tidak ditemukan');
+          }
+          if (response.jumlah_pel) {
+            $("#pelanggan").html(response.jumlah_pel);
+          } else {
+            $("#pelanggan").html('Data tidak ditemukan');
+          }
+          if (response.total_kubik) {
+            $("#kubik").html(response.total_kubik);
+          } else {
+            $("#kubik").html('Data tidak ditemukan');
+          }
+        },
+        error: function() {
+          $("#stan-awal").html('Data error');
+          $("#stan-akhir").html('Data error');
+          $("#pakai").html('Data error');
+          $("#kubik").html('Data error');
         }
-
-        if(response.total_stan_akhir){
-          $("#stan-akhir").html(response.total_stan_akhir);
-        } 
-        else {
-          $("#stan-akhir").html('Data tidak ditemukan');
-        }
-
-        if(response.pakai){
-          $("#pakai").html(response.pakai);
-        } 
-        else {
-          $("#pakai").html('Data tidak ditemukan');
-        }
-
-        if(response.jumlah_pel){
-          $("#pelanggan").html(response.jumlah_pel);
-        } 
-        else {
-          $("#pelanggan").html('Data tidak ditemukan');
-        }
-
-        if(response.total_kubik){
-          $("#kubik").html(response.total_kubik);
-        }
-        else {
-          $("#kubik").html('Data tidak ditemukan');
-        }
-      },
-      error: function () {
-        $("#stan-awal").html('Data error');
-        $("#stan-akhir").html('Data error');
-        $("#pakai").html('Data error');
-        $("#pelanggan").html('Data error');
-        $("#kubik").html('Data error');
-      }
       })
     }
-    $("#tahun").on("change",function(){
+    $("#tahun").on("change", function() {
       tahun = $(this).val();
       ajaxCall();
     })
-    $("#bulan").on("change",function(){
+    $("#bulan").on("change", function() {
       bulan = $(this).val();
       ajaxCall();
     })

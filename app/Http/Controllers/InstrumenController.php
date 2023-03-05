@@ -19,7 +19,7 @@ class InstrumenController extends Controller
     }
     public function sebaran()
     {
-        $data = Instrument::select('tipe_instrumen', 'long', 'lat')->get();
+        $data = Instrument::select('kode_instrumen', 'nama_instrumen', 'tipe_instrumen', 'long', 'lat', 'kode_rayon', 'kode_pc', 'kode_dma')->get();
         return view('sebaran', ['data' => $data]);
     }
 }

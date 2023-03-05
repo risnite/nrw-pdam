@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstrumenController;
 use App\Http\Controllers\DistribusiController;
+use App\Http\Controllers\PetaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/instrumen', [InstrumenController::class, 'index'])->name('instrumen.index');
     Route::get('/distribusi', [DistribusiController::class, 'index'])->name('distribusi.index');
     Route::get('/distribusi/{kode_instrument}', [DistribusiController::class, 'show'])->name('distribusi.show');
-
+    Route::prefix('peta')->group(function () {
+        Route::get('/ipa', [PetaController::class, 'ipa'])->name('peta.ipa');
+        Route::get('/pc', [PetaController::class, 'pc'])->name('peta.pc');
+    });
     Route::get('/tekanan', function () {
         return view('tekanan');
     })->name('tekanan');
 });
-
 require __DIR__ . '/auth.php';
