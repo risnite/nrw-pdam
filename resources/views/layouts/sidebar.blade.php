@@ -19,7 +19,7 @@
     <i class="fa-solid fa-magnifying-glass fa-xl text-black col-3"></i>
     <div class="text-white">PANTAU TEKANAN</div>
   </a>
-  <div class="nav-link">
+  {{-- <div class="nav-link">
     <button class="accordion-button d-flex justify-content-center mb-3" type="button" data-bs-toggle="collapse"
       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
       <i class="fa-solid fa-map fa-xl text-black col-3"></i>
@@ -33,7 +33,7 @@
         <a href="/peta/dma" class="nav-link text-white">DMA</a>
       </div>
     </div>
-  </div>
+  </div> --}}
   @if (Auth::check())
     <form method="POST" action="{{ route('logout') }}">
       @csrf

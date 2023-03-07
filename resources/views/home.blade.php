@@ -38,6 +38,7 @@
   <script src="{{ asset('assets') }}/js/map.js"></script>
   {{-- script leafletjs --}}
   <script>
+    var data = {!! $data !!}
     // create map
     var map = L.map('map-home', {
       gestureHandling: true,
@@ -70,7 +71,6 @@
     var rayon = [];
     var pc = [];
     var dma = [];
-    const data = {!! $data !!};
     data.forEach(instrumen => {
       // filter ipa
       if (instrumen['kode_rayon'] == null) {
